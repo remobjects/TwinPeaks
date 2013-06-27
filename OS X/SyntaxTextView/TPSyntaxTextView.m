@@ -21,7 +21,7 @@
 {
 	//syntaxColouring = [[TPSyntaxColouring alloc] initWithOwner:self andSyntaxDefinition:sdDefault];
 	
-	suggestAutocomplete = SUGGEST_AUTOCOMPLETE;
+	_suggestAutocomplete = SUGGEST_AUTOCOMPLETE;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(viewBoundsDidChange:) 
@@ -55,7 +55,7 @@
 
 - (void)setDefaults
 {
-	inCompleteMethod = NO;
+	_inCompleteMethod = NO;
 	
 	[self setTabWidth];
 	
@@ -605,7 +605,7 @@
 
 - (void)cursorUpdate:(NSEvent *)event
 {
-	[colouredIBeamCursor set];
+	[_colouredIBeamCursor set];
 }
 
 
@@ -613,7 +613,7 @@
 {
 	if ([NSCursor currentCursor] == [NSCursor IBeamCursor]) 
 	{
-		[colouredIBeamCursor set];
+		[_colouredIBeamCursor set];
 	}
 }
 

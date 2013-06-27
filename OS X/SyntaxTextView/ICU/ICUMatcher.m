@@ -103,7 +103,7 @@ typedef struct URegularExpression URegularExpression;
 	while(YES) { 
 		UErrorCode status = 0;
 		UChar *dest = (UChar *)NSZoneCalloc([self zone], groupSize, sizeof(UChar));
-		int32_t buffSize = uregex_group(re, groupIndex, dest, groupSize, &status);
+		int32_t buffSize = uregex_group(re, groupIndex, dest, (int32_t)groupSize, &status);
 
 		if(U_BUFFER_OVERFLOW_ERROR == status) {
 			groupSize *= 2;
@@ -146,7 +146,7 @@ typedef struct URegularExpression URegularExpression;
 	UErrorCode status = 0;
 	UChar *replacementText = [aReplacementString UTF16String];
 	URegularExpression *re = [[self pattern] re];
-	unsigned int searchTextLength = [[[self pattern] stringToSearch] length];
+	NSUInteger searchTextLength = [[[self pattern] stringToSearch] length];
 	
 	BOOL replacementCompleted = NO;
 	int resultLength = 0;
@@ -163,9 +163,9 @@ typedef struct URegularExpression URegularExpression;
 	
 		status = 0;
 		if(replacingAll)
-			resultLength = uregex_replaceAll(re, replacementText, -1, destString, destStringBufferSize, &status);
+			resultLength = uregex_replaceAll(re, replacementText, -1, destString, (int32_t)destStringBufferSize, &status);
 		else
-			resultLength = uregex_replaceFirst(re, replacementText, -1, destString, destStringBufferSize, &status);
+			resultLength = uregex_replaceFirst(re, replacementText, -1, destString, (int32_t)destStringBufferSize, &status);
 
 		// realloc some more space if possible
 		if(status == U_BUFFER_OVERFLOW_ERROR) {

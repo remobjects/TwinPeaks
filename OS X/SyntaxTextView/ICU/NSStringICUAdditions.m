@@ -21,6 +21,7 @@ typedef struct URegularExpression URegularExpression;
 #define U_HIDE_DRAFT_API 1
 #define U_DISABLE_RENAMING 1
 #import <unicode/uregex.h>
+#import <unicode/ustring.h>
 
 @interface NSString (NSStringICUPrivateAdditions)
 
@@ -80,13 +81,13 @@ typedef struct URegularExpression URegularExpression;
 	
 	// for some reason, the null-terminator doesn't always show up at the right place and this
 	// causes extra characters to be created in the unicode string.  We remove them here by force.
-	unsigned int len = [self length];
+	NSUInteger len = [self length];
 	ret[len] = '\0';
 	return ret;	
 }
 
 -(void *)copyUTF16String {
-	unsigned int length = [self length];
+	NSUInteger length = [self length];
 	UChar *utf16String = malloc((length+1)*sizeof(UChar));
 	[self getCharacters: utf16String];
 	utf16String[length] = 0;

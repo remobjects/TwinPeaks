@@ -8,11 +8,12 @@
 
 #import "TPSlightGradientBackgroundView.h"
 
-@interface NSColor(CGColor)
+/*@interface NSColor(CGColor)
 - (CGColorRef)CGColor;
 @end
 
 @implementation NSColor(CGColor)
+
 - (CGColorRef)CGColor 
 {
     CGColorSpaceRef colorSpace = [[self colorSpace] CGColorSpace];
@@ -24,7 +25,7 @@
     return color;
 }
 
-@end
+@end*/
 
 @implementation TPSlightGradientBackgroundView
 

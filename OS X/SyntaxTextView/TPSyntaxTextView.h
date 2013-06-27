@@ -20,13 +20,9 @@
 	NSColor *pageGuideColour;
 	
 	BOOL showPageGuide;
-	
-	NSCursor *colouredIBeamCursor;
-	
-	BOOL inCompleteMethod;
+		
 	TPSyntaxColouring *syntaxColouring;
 	enum SyntaxDefinition syntaxDefinition;
-	BOOL suggestAutocomplete;
 }
 
 @property (assign) NSCursor *colouredIBeamCursor;
