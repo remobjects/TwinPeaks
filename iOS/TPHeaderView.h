@@ -13,4 +13,6 @@
 - (id)initWithWidth:(CGFloat)width caption:(NSString *)caption;
 + (CGFloat)headerHeight;
 
++ (UIFont *)font;
+
 @end

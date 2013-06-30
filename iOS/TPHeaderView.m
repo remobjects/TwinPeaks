@@ -24,9 +24,7 @@
 
 - (id)initWithWidth:(CGFloat)width caption:(NSString *)aCaption
 {
-    CGSize size = [aCaption sizeWithFont:[TPHeaderView font]];
-
-    self = [super initWithFrame:CGRectMake(0, 0, width, size.height+10)];
+    self = [super initWithFrame:CGRectMake(0, 0, width, [TPHeaderView headerHeight])];
     if (self)
     {
         self.opaque = NO;
