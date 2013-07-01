@@ -45,6 +45,7 @@
 		<string>and</string>
 		<string>array</string>
 		<string>as</string>
+		<string>asc</string>
 		<string>assembly</string>
 		<string>async</string>
 		<string>autoreleasepool</string>
@@ -52,6 +53,7 @@
 		<string>begin</string>
 		<string>block</string>
 		<string>break</string>
+		<string>by</string>
 		<string>case</string>
 		<string>class</string>
 		<string>const</string>
@@ -60,6 +62,8 @@
 		<string>default</string>
 		<string>delegate</string>
 		<string>deprecated</string>
+		<string>desc</string>
+		<string>distinct</string>
 		<string>div</string>
 		<string>do</string>
 		<string>downto</string>
@@ -80,8 +84,10 @@
 		<string>finally</string>
 		<string>flags</string>
 		<string>for</string>
+		<string>from</string>
 		<string>function</string>
 		<string>global</string>
+		<string>group</string>
 		<string>has</string>
 		<string>if</string>
 		<string>implements</string>
@@ -92,9 +98,11 @@
 		<string>inherited</string>
 		<string>inline</string>
 		<string>interface</string>
+		<string>into</string>
 		<string>invariants</string>
 		<string>is</string>
 		<string>iterator</string>
+		<string>join</string>
 		<string>locked</string>
 		<string>locking</string>
 		<string>loop</string>
@@ -113,7 +121,9 @@
 		<string>old</string>
 		<string>on</string>
 		<string>operator</string>
+		<string>optional</string>
 		<string>or</string>
+		<string>order</string>
 		<string>out</string>
 		<string>override</string>
 		<string>parallel</string>
@@ -134,16 +144,20 @@
 		<string>repeat</string>
 		<string>require</string>
 		<string>result</string>
+		<string>reverse</string>
 		<string>sealed</string>
+		<string>select</string>
 		<string>selector -</string>
 		<string>self</string>
 		<string>sequence</string>
 		<string>set</string>
 		<string>shl</string>
 		<string>shr</string>
+		<string>skip</string>
 		<string>static</string>
 		<string>step</string>
 		<string>strong</string>
+		<string>take</string>
 		<string>then</string>
 		<string>to</string>
 		<string>true</string>
