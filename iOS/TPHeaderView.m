@@ -18,7 +18,7 @@
 
 + (UIFont *)font
 {
-    if ([TPVersionHelpers isIOS7]) return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline1];
+    if ([TPVersionHelpers isIOS7]) return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     return [UIFont boldSystemFontOfSize:15];
 }
 
