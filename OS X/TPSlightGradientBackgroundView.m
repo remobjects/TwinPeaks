@@ -64,7 +64,7 @@
     
     // create the bitmap context
     CGContextRef gradientBitmapContext = CGBitmapContextCreate(nil, pixelsWide, pixelsHigh,
-                                                               8, 0, colorSpace, kCGImageAlphaNoneSkipFirst);
+                                                               8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaNoneSkipFirst);
     
     // define the start and end grayscale values (with the alpha, even though
     // our bitmap context doesn't support alpha the gradient requires it)
