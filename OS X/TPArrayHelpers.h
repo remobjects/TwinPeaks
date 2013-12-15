@@ -20,4 +20,6 @@
 - (NSArray *)selectChangedTables;
 #endif
 
+- (id)firstOrNil;
+
 @end

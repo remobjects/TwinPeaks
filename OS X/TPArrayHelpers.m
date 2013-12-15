@@ -40,6 +40,13 @@
 	return [self sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:key ascending:ascending selector:@selector(localizedCaseInsensitiveCompare:)]]];
 }
 
+- (id)firstOrNil
+{
+    if ([self count]) return [self objectAtIndex:0];
+    return nil;
+}
+
+
 #ifdef TP_DATAABSTRACT
 
 - (NSArray *)selectChangedTables {
