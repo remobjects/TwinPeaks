@@ -30,4 +30,6 @@
 - (void)hideBottomRight;
 - (void)showBottomRight;
 
+- (CGFloat)positionOfDividerAtIndex:(NSInteger)index;
+
 @end

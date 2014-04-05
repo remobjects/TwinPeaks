@@ -131,6 +131,14 @@
     return splitView.bounds.size.width-minBottomRight;
 }
 
+- (CGFloat)positionOfDividerAtIndex:(NSInteger)index
+{
+    if ([self isVertical])
+        return [[[self subviews] objectAtIndex:index] frame].size.width;
+    else
+        return [[[self subviews] objectAtIndex:index] frame].size.height;
+}
+
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
 {
     NSArray *subviews = [splitView subviews];
