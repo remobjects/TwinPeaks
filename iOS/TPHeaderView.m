@@ -22,6 +22,11 @@
     return [UIFont boldSystemFontOfSize:15];
 }
 
++ (NSDictionary *)attributes
+{
+    return @{NSFontAttributeName: [self font], NSForegroundColorAttributeName: [UIColor whiteColor]};
+}
+
 - (id)initWithWidth:(CGFloat)width caption:(NSString *)aCaption
 {
     self = [super initWithFrame:CGRectMake(0, 0, width, [TPHeaderView headerHeight])];
@@ -35,21 +40,20 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    UIFont *font = [TPHeaderView font];
-    CGSize size = [caption sizeWithFont:font];
+    NSDictionary *attributes = [TPHeaderView attributes];
+    CGSize size = [caption sizeWithAttributes:attributes];
     CGRect f = self.frame;
 
     CGFloat gray = 0;
     [[UIColor colorWithRed:gray green:gray blue:gray alpha:0.65] setFill];
     UIRectFill(self.bounds);
 
-    [[UIColor whiteColor] set];
-    [caption drawAtPoint:CGRectMake( (f.size.width-size.width)/2, (f.size.height-size.height)/2, 0, 0).origin withFont:font];
+    [caption drawAtPoint:CGRectMake( (f.size.width-size.width)/2, (f.size.height-size.height)/2, 0, 0).origin withAttributes:attributes];
 }
 
 + (CGFloat)headerHeight
 {
-    return [@"Xq" sizeWithFont:[self font]].height+10;
+    return [@"Xq" sizeWithAttributes:[self attributes]].height+10;
 }
 
 @end
