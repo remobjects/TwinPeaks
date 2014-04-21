@@ -32,7 +32,6 @@
 - (NSArray *)sortedArrayUsingKey:(NSString *)key ascending:(BOOL)ascending
 {
 	return [self sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:key ascending:ascending]]];
-	
 }
 
 - (NSArray *)localizedCaseInsensitivelySortedArrayUsingKey:(NSString *)key ascending:(BOOL)ascending

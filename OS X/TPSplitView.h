@@ -9,26 +9,22 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface TPSplitView : NSSplitView 
-#if MAC_OS_X_VERSION_10_6
-<NSSplitViewDelegate>
-#endif
+@interface TPSplitView : NSSplitView <NSSplitViewDelegate>
 {
     NSImageView *handleImage;
-    CGFloat minTopLeft, minBottomRight;
-    int priorityViewIndex;
     BOOL handleOnRight;
-    
-    BOOL bottomRightHidden;
-    BOOL bottomRightIsFixed;
 }
 
 @property (assign) CGFloat minTopLeft, minBottomRight;
-@property (assign, nonatomic) BOOL handleOnRight;
-@property (readonly) BOOL bottomRightHidden;
+@property (assign) CGFloat maxTopLeft, maxBottomRight;
 
+@property (assign) int priorityViewIndex;
+
+@property (readonly) BOOL secondaryViewIsHidden;
+
+/*@property (assign, nonatomic) BOOL handleOnRight;
 - (void)hideBottomRight;
-- (void)showBottomRight;
+- (void)showBottomRight;*/
 
 - (CGFloat)positionOfDividerAtIndex:(NSInteger)index;
 

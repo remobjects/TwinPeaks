@@ -10,11 +10,16 @@
 
 
 @implementation TPSplitView
+
+
 -(void)awakeFromNib
 {
-    minTopLeft = 200;
-    minBottomRight = 200;
-    priorityViewIndex = 1;
+    _priorityViewIndex = 1;
+    _minTopLeft = 200;
+    _minBottomRight = 200;
+    
+    _maxTopLeft = INT_MAX;
+    _maxBottomRight = INT_MAX;
     
     // divider style is thin by default
     [self setDividerStyle:NSSplitViewDividerStyleThin];
@@ -31,8 +36,6 @@
     [self adjustSubviews];
     [self setDelegate:self];
 }
-
-@synthesize minTopLeft, minBottomRight, handleOnRight, bottomRightHidden;
 
 - (void)setHandleOnRight:(BOOL)value
 {
@@ -68,13 +71,7 @@
     
 }
 
-- (CGFloat)dividerThickness
-{
-    if (bottomRightHidden) return 0;
-    return [super dividerThickness];
-}
-
-- (void)hideBottomRight
+/*- (void)hideBottomRight
 {
     bottomRightHidden = YES;
     
@@ -90,45 +87,29 @@
     bottomRightHidden = NO;
     
     NSRect b = [self bounds];
-    CGFloat pos = ([self isVertical] ? b.size.width : b.size.height)-minBottomRight;
+    CGFloat pos = ([self isVertical] ? b.size.width : b.size.height)-_minBottomRight;
     [self setPosition:pos ofDividerAtIndex:0];
     
     //[self adjustSubviews];
-}
+}*/
 
 - (BOOL)mouseDownCanMoveWindow
 {	
     return YES;	
 }
 
-- (NSColor *)dividerColor 
+- (CGFloat)dividerThickness
+{
+    //if ([self isVertical])
+    //    NSLog(@"dividerThickness: %f", [self secondaryViewIsHidden] ? 0 : [super dividerThickness]);
+    
+    //if ([self secondaryViewIsHidden]) return 0;
+    return [super dividerThickness];
+}
+
+- (NSColor *)dividerColor
 {
     return [NSColor darkGrayColor];
-}
-
-- (NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex 
-{
-    return [handleImage convertRect:[handleImage bounds] toView:self];
-}
-
-- (CGFloat)splitView:(NSSplitView *)splitView constrainSplitPosition:(CGFloat)proposedPosition ofSubviewAt:(NSInteger)dividerIndex
-{
-    if (bottomRightHidden) return  splitView.bounds.size.width;
-    if (proposedPosition < minTopLeft) proposedPosition = minTopLeft;
-    if (proposedPosition > splitView.bounds.size.width-minBottomRight) proposedPosition = splitView.bounds.size.width-minBottomRight;
-    return proposedPosition;
-}
-
-- (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
-{
-    if (bottomRightHidden) return splitView.bounds.size.width;
-    return minTopLeft;
-}
-
-- (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
-{
-    if (bottomRightHidden) return splitView.bounds.size.width;
-    return splitView.bounds.size.width-minBottomRight;
 }
 
 - (CGFloat)positionOfDividerAtIndex:(NSInteger)index
@@ -139,77 +120,164 @@
         return [[[self subviews] objectAtIndex:index] frame].size.height;
 }
 
+- (CGFloat)totalSize
+{
+    if ([self isVertical])
+        return [self frame].size.width;
+    else
+        return [self frame].size.height;
+}
+
+- (BOOL)secondaryViewIsHidden
+{
+    if (_priorityViewIndex == 0)
+    {
+        //NSLog(@"positionOfDividerAtIndex: %d, %d", _priorityViewIndex, [self positionOfDividerAtIndex:0] >= [self totalSize]);
+        return [self positionOfDividerAtIndex:0] >= [self totalSize];
+    }
+    else if (_priorityViewIndex == 1)
+    {
+        //if ([self isVertical])
+        //    NSLog(@"secondaryViewIsHidden: %d", [self positionOfDividerAtIndex:0] <= 0);
+        return [self positionOfDividerAtIndex:0] <= 0;
+    }
+    return NO;
+}
+
+- (BOOL)bottomRightHidden
+{
+    //NSLog(@"bottomRightHidden _priorityViewIndex: %d, %d", _priorityViewIndex, [self secondaryViewIsHidden]);
+    return _priorityViewIndex == 0 && [self secondaryViewIsHidden];
+}
+
+- (BOOL)topLeftHidden
+{
+    //NSLog(@"topLeftHidden _priorityViewIndex: %d, %d", _priorityViewIndex, [self secondaryViewIsHidden]);
+    return _priorityViewIndex == 1 && [self secondaryViewIsHidden];
+}
+
+
+
+- (NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex
+{
+    return [handleImage convertRect:[handleImage bounds] toView:self];
+}
+
+- (CGFloat)splitView:(NSSplitView *)splitView constrainSplitPosition:(CGFloat)proposedPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+    //if (![self isVertical]) NSLog(@"constrainSplitPosition:%f ofSubviewAt:%ld", proposedPosition, dividerIndex);
+    //if (_priorityViewIndex == 1 && [self secondaryViewIsHidden]) return splitView.bounds.size.width;
+    //if (_priorityViewIndex == 0 && [self secondaryViewIsHidden]) return 0;
+    if (proposedPosition < _minTopLeft) proposedPosition = _minTopLeft;
+    if (proposedPosition > [self totalSize]-_minBottomRight) proposedPosition = [self totalSize]-_minBottomRight;
+
+    if (proposedPosition > _maxTopLeft) proposedPosition = _maxTopLeft;
+    if (proposedPosition < [self totalSize]-_maxBottomRight) proposedPosition = [self totalSize]-_maxBottomRight;
+    
+    NSLog(@"new = %f", proposedPosition);
+    return proposedPosition;
+}
+
+- (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
+{
+    //if (![self isVertical]) NSLog(@"constrainMinCoordinate:%f ofSubviewAt:%ld (result=%f)", proposedMin, dividerIndex, _minTopLeft);
+    //if (_priorityViewIndex == 1 && [self secondaryViewIsHidden]) return [self totalSize];
+    //if (_priorityViewIndex == 0 && [self secondaryViewIsHidden]) return 0;
+    return _minTopLeft;
+}
+
+- (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
+{
+    //if (![self isVertical]) NSLog(@"constrainMaxCoordinate:%f ofSubviewAt:%ld (result=%f)", proposedMax, dividerIndex, [self totalSize]-_minBottomRight);
+    //if (_priorityViewIndex == 1 && [self secondaryViewIsHidden]) [self totalSize];
+    //if (_priorityViewIndex == 1 && [self secondaryViewIsHidden]) [self totalSize];
+    return [self totalSize]-_minBottomRight;
+}
+
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
 {
     NSArray *subviews = [splitView subviews];
     
-    if (bottomRightHidden)
+    if ([self bottomRightHidden])
     {
         [[subviews objectAtIndex:0] setFrameSize:[self frame].size];
         [[subviews objectAtIndex:1] setFrameSize:NSZeroSize];
         return;
     }
-    
+    if ([self topLeftHidden])
+    {
+        [[subviews objectAtIndex:1] setFrameSize:[self frame].size];
+        [[subviews objectAtIndex:0] setFrameSize:NSZeroSize];
+        return;
+    }
     
     BOOL isVertical = [splitView isVertical];
     
-    CGFloat delta = isVertical ?
-    (splitView.bounds.size.width - oldSize.width) :
-    (splitView.bounds.size.height - oldSize.height);
+    CGFloat delta = isVertical ? (splitView.bounds.size.width - oldSize.width) : (splitView.bounds.size.height - oldSize.height);
     
+    int start = (_priorityViewIndex == 1) ? 1 : 0;
+    int end = (_priorityViewIndex == 1) ? -1 : 2;
+    int direction = (_priorityViewIndex == 1) ? -1 : +1;
     
-    for (int i = 1; i >= 0; i--)
+    for (int i = start; i != end; i += direction)
     {
-        int viewIndexValue = i;
-        
-        NSView *view = [subviews objectAtIndex:viewIndexValue];
+        NSView *view = [subviews objectAtIndex:i];
         NSSize frameSize = [view frame].size;
-        
-        CGFloat minLengthValue = i == 0 ? minTopLeft : (bottomRightHidden ? 0 : minBottomRight);
-        
+
+        CGFloat size;
         if (isVertical)
         {
             frameSize.height = splitView.bounds.size.height;
-            if (delta > 0 ||
-                frameSize.width + delta >= minLengthValue)
-            {
-                frameSize.width += delta;
-                delta = 0;
-            }
-            else if (delta < 0)
-            {
-                delta += frameSize.width - minLengthValue;
-                frameSize.width = minLengthValue;
-            }
+            size = frameSize.width;
         }
         else
         {
             frameSize.width = splitView.bounds.size.width;
-            if (delta > 0 ||
-                frameSize.height + delta >= minLengthValue)
-            {
-                frameSize.height += delta;
-                delta = 0;
-            }
-            else if (delta < 0)
-            {
-                delta += frameSize.height - minLengthValue;
-                frameSize.height = minLengthValue;
-            }
+            size = frameSize.height;
         }
+        
+        CGFloat minLengthValue = i == 0 ? _minTopLeft : _minBottomRight;
+
+        if (delta > 0 || size + delta >= minLengthValue)
+        {
+            size += delta;
+            delta = 0;
+        }
+        else if (delta < 0)
+        {
+            delta += size - minLengthValue;
+            size = minLengthValue;
+        }
+        
+        if (isVertical)
+            frameSize.width = size;
+        else
+            frameSize.height = size;
         
         [view setFrameSize:frameSize];
     }
     
     CGFloat offset = 0;
-    CGFloat dividerThickness = [splitView dividerThickness];
-    for (NSView *subview in subviews)
+    CGFloat dividerThickness = [self dividerThickness];
+
+    for (int i = 0; i < [subviews count]; i++)
     {
-        NSRect viewFrame = subview.frame;
+        NSView *view = [subviews objectAtIndex:i];
+        NSRect viewFrame = view.frame;
+        
         NSPoint viewOrigin = viewFrame.origin;
-        viewOrigin.x = offset;
-        [subview setFrameOrigin:viewOrigin];
-        offset += viewFrame.size.width + dividerThickness;
+        if (isVertical)
+        {
+            viewOrigin.x = offset;
+            [view setFrameOrigin:viewOrigin];
+            offset += viewFrame.size.width + dividerThickness;
+        }
+        else
+        {
+            viewOrigin.y = offset;
+            [view setFrameOrigin:viewOrigin];
+            offset += viewFrame.size.height + dividerThickness;
+        }
     }
 }
 
