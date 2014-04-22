@@ -8,6 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class TPSplitView;
+
+@protocol TPSplitViewDelegate <NSObject>
+
+- (void)splitViewDidResizeSubviews:(TPSplitView *)splitView;
+
+@end
 
 @interface TPSplitView : NSSplitView <NSSplitViewDelegate>
 {
@@ -27,5 +34,7 @@
 - (void)showBottomRight;*/
 
 - (CGFloat)positionOfDividerAtIndex:(NSInteger)index;
+
+@property (weak) id<TPSplitViewDelegate> delegate2;
 
 @end

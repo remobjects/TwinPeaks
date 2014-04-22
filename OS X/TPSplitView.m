@@ -107,6 +107,11 @@
     return [super dividerThickness];
 }
 
+- (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
+{
+    return [self secondaryViewIsHidden];
+}
+
 - (NSColor *)dividerColor
 {
     return [NSColor darkGrayColor];
@@ -174,7 +179,7 @@
     if (proposedPosition > _maxTopLeft) proposedPosition = _maxTopLeft;
     if (proposedPosition < [self totalSize]-_maxBottomRight) proposedPosition = [self totalSize]-_maxBottomRight;
     
-    NSLog(@"new = %f", proposedPosition);
+    //NSLog(@"new = %f", proposedPosition);
     return proposedPosition;
 }
 
@@ -279,6 +284,14 @@
             offset += viewFrame.size.height + dividerThickness;
         }
     }
+    
 }
+
+- (void)splitViewDidResizeSubviews:(NSNotification *)notification
+{
+    if (_delegate2 != nil && [_delegate2 respondsToSelector:@selector(splitViewDidResizeSubviews:)])
+        [_delegate2 splitViewDidResizeSubviews:self];
+}
+
 
 @end
