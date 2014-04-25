@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
+    <PropertyGroup>
+        <RootNamespace>TwinPeaks</RootNamespace>
+        <ProjectGuid>1CF0B07C-CAF8-4CB2-A69D-5510C332B7E0</ProjectGuid>
+        <OutputType>StaticLibrary</OutputType>
+        <AssemblyName>TwinPeaks</AssemblyName>
+        <AllowGlobals>False</AllowGlobals>
+        <AllowLegacyWith>False</AllowLegacyWith>
+        <AllowLegacyOutParams>False</AllowLegacyOutParams>
+        <AllowLegacyCreate>False</AllowLegacyCreate>
+        <AllowUnsafeCode>False</AllowUnsafeCode>
+        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+        <SDK>OS X</SDK>
+        <CreateHeaderFile>True</CreateHeaderFile>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <Optimize>false</Optimize>
+        <OutputPath>.\bin\Debug</OutputPath>
+        <DefineConstants>DEBUG;TRACE;</DefineConstants>
+        <GenerateDebugInfo>True</GenerateDebugInfo>
+        <EnableAsserts>True</EnableAsserts>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+        <CaptureConsoleOutput>False</CaptureConsoleOutput>
+        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <Optimize>true</Optimize>
+        <OutputPath>.\bin\Release</OutputPath>
+        <GenerateDebugInfo>False</GenerateDebugInfo>
+        <EnableAsserts>False</EnableAsserts>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+        <CaptureConsoleOutput>False</CaptureConsoleOutput>
+        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Foundation.fx"/>
+        <Reference Include="rtl.fx"/>
+        <Reference Include="libNougat.fx"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="TPArrayHelpers.cs"/>
+        <Compile Include="TPBaseSheetController.cs"/>
+        <Compile Include="TPBusySheetController.cs"/>
+        <Compile Include="TPGradientOutlineView.cs"/>
+        <None Include="TPGradientShared.cs"/>
+        <Compile Include="TPGradientTableView.cs"/>
+        <Compile Include="TPLoginWindowController.cs"/>
+        <Compile Include="TPSlightGradientBackgroundView.cs"/>
+        <Compile Include="TPSplitView.cs"/>
+        <Compile Include="TPWindowManager.cs"/>
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Nougat.targets"/>
+</Project>
