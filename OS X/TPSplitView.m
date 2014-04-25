@@ -203,10 +203,24 @@
 {
     NSArray *subviews = [splitView subviews];
     
+    BOOL isVertical = [splitView isVertical];
+
     if ([self bottomRightHidden])
     {
-        [[subviews objectAtIndex:0] setFrameSize:[self frame].size];
-        [[subviews objectAtIndex:1] setFrameSize:NSZeroSize];
+        CGSize size0 = [self frame].size;
+        CGSize size1 = [self frame].size;
+        if (isVertical)
+        {
+            size0.width--;
+            size1.width = 1;
+        }
+        else
+        {
+            size0.height--;
+            size1.height = 1;
+        }
+        [[subviews objectAtIndex:0] setFrameSize:size0];
+        [[subviews objectAtIndex:1] setFrameSize:size1];
         return;
     }
     if ([self topLeftHidden])
@@ -215,8 +229,6 @@
         [[subviews objectAtIndex:0] setFrameSize:NSZeroSize];
         return;
     }
-    
-    BOOL isVertical = [splitView isVertical];
     
     CGFloat delta = isVertical ? (splitView.bounds.size.width - oldSize.width) : (splitView.bounds.size.height - oldSize.height);
     
