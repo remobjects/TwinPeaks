@@ -1,4 +1,5 @@
 bin
 obj
+*.DS_Store
 *.fire.cache
 *.fire.user
