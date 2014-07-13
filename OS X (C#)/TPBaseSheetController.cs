@@ -2,6 +2,7 @@
 
 namespace RemObjects.TwinPeaks.OSX
 {
+	[IBObject]
 	public class TPBaseSheetController: NSWindowController
 	{
 		public override instancetype init()
@@ -23,12 +24,12 @@ namespace RemObjects.TwinPeaks.OSX
 
 		private NSDragOperation draggingEntered(INSDraggingInfo sender)
 		{
-			return NSDragOperationCopy;
+			return NSDragOperation.NSDragOperationCopy;
 		}
 
 		private NSDragOperation draggingUpdated(INSDraggingInfo sender)
 		{
-			return NSDragOperationCopy;
+			return NSDragOperation.NSDragOperationCopy;
 		}
 
 		private bool prepareForDragOperation(INSDraggingInfo sender)
@@ -81,11 +82,13 @@ namespace RemObjects.TwinPeaks.OSX
 			return condition;
 		}
 
+		[IBAction]
 		public void validate(id sender)
 		{
 			this.validated = true;
 		}
 
+		[IBAction]
 		public void cancel(id sender)
 		{
 			NSApp.endSheet(this.window());
