@@ -69,7 +69,7 @@ begin
 
   // draw the gradient into the gray bitmap context
   CGContextDrawLinearGradient(gradientBitmapContext, grayScaleGradient, gradientStartPoint,
-                              gradientEndPoint, CGGradientDrawingOptions.DrawsAfterEndLocation);
+                              gradientEndPoint, CGGradientDrawingOptions.kCGGradientDrawsAfterEndLocation);
   CGGradientRelease(grayScaleGradient);
 
   // convert the context into a CGImageRef and release the context
