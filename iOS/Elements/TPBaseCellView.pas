@@ -32,8 +32,8 @@ method TPBaseCellView.initWithFrame(frame: CGRect): id;
 begin
   self := inherited initWithFrame(frame);
   if assigned(self) then begin
-  	opaque := NO;
-	  backgroundColor := UIColor.clearColor;
+    opaque := NO;
+    backgroundColor := UIColor.clearColor;
   end;
   result := self;
 end;
@@ -48,17 +48,17 @@ begin
 
     // define the start and end grayscale values (with the alpha, even though
     // our bitmap context doesn't support alpha the gradient requires it)
-	var startColor := fromColor.CGColor;
-	var endColor := toColor.CGColor;
+  var startColor := fromColor.CGColor;
+  var endColor := toColor.CGColor;
   var colors: array[0..1] of CGColorRef := [startColor, endColor];
 
-	//CGFloat locations[2] = begin 0.0, 1.0 end;;
+  //CGFloat locations[2] = begin 0.0, 1.0 end;;
 
-	var colorArray := CFArrayCreate (nil, ^^Void(@colors), 2, nil);
+  var colorArray := CFArrayCreate (nil, ^^Void(@colors), 2, nil);
   // create the CGGradient and then release the gray color space
   var grayScaleGradient := CGGradientCreateWithColors(nil{colorSpace}, colorArray, nil{locations});
   CGColorSpaceRelease(colorSpace);
-	CFRelease(colorArray);
+  CFRelease(colorArray);
 
   // create the start and end points for the gradient vector (straight down)
   var gradientStartPoint := CGPointZero;
@@ -69,7 +69,7 @@ begin
 
   // draw the gradient into the gray bitmap context
   CGContextDrawLinearGradient(gradientBitmapContext, grayScaleGradient, gradientStartPoint,
-                              gradientEndPoint, kCGGradientDrawsAfterEndLocation);
+                              gradientEndPoint, CGGradientDrawingOptions.DrawsAfterEndLocation);
   CGGradientRelease(grayScaleGradient);
 
   // convert the context into a CGImageRef and release the context
@@ -77,19 +77,19 @@ begin
   CGContextRelease(gradientBitmapContext);
 
   // return the imageref containing the gradient
-	result := UIImage.imageWithCGImage(theCGImage);
-	CGImageRelease(theCGImage);
+  result := UIImage.imageWithCGImage(theCGImage);
+  CGImageRelease(theCGImage);
 end;
 
 method TPBaseCellView.createGradientImageWidth(pixelsWide: CGFloat) height(pixelsHigh: CGFloat): UIImage;
 begin
-	result := createGradientImageWidth(pixelsWide) height(pixelsHigh) fromColor(gradientStartColor) toColor(gradientStopColor);
+  result := createGradientImageWidth(pixelsWide) height(pixelsHigh) fromColor(gradientStartColor) toColor(gradientStopColor);
 end;
 
 method TPBaseCellView.createGradientImage: UIImage;
 begin
-	var f := bounds;
-	result := createGradientImageWidth(f.size.width) height(f.size.height);
+  var f := bounds;
+  result := createGradientImageWidth(f.size.width) height(f.size.height);
 end;
 
 method TPBaseCellView.isHighlighted: Boolean;

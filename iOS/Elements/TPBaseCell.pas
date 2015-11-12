@@ -33,7 +33,7 @@ begin
   self := inherited initWithStyle(style) reuseIdentifier(aReuseIdentifier);
   if assigned(self) then begin
     //if UIDevice.currentDevice.systemVersion.floatValue < 7.0 then
-	  //  setBackgroundGradient();
+    //  setBackgroundGradient();
   end;
   result := self;
 end;
@@ -42,13 +42,13 @@ method TPBaseCell.initWithStyle(style: UITableViewCellStyle) view(aView: UIView)
 begin
   self := inherited initWithStyle(style) reuseIdentifier('dummy');//aView.class.description);
   if assigned(self) then begin
-		fView := aView;
+    fView := aView;
     //fView.setFrame := contentView.bounds;
     fView.frame := contentView.bounds;
-		fView.autoresizingMask :=  UIViewAutoresizing.UIViewAutoresizingFlexibleWidth or UIViewAutoresizing.UIViewAutoresizingFlexibleHeight;
-		contentView.addSubview(fView);
-	  //setBackgroundGradient();
-		if fView.respondsToSelector(selector(setCell:)) then
+    fView.autoresizingMask :=  UIViewAutoresizing.UIViewAutoresizingFlexibleWidth or UIViewAutoresizing.UIViewAutoresizingFlexibleHeight;
+    contentView.addSubview(fView);
+    //setBackgroundGradient();
+    if fView.respondsToSelector(selector(setCell:)) then
       TPBaseCellView(fView).setCell(self);
   end;
   result := self;
@@ -58,16 +58,16 @@ method TPBaseCell.initWithStyle(style: UITableViewCellStyle) viewClass(aClass: &
 begin
   self := initWithStyle(style) reuseIdentifier(aClass.description);
   if assigned(self) then begin
-	  fView := aClass.alloc.initWithFrame(contentView.bounds) as UIView; //64464: "aClass.alloc.initWithFrame" is treated as NSObject, not id
-		fView.autoresizingMask :=  UIViewAutoresizing.UIViewAutoresizingFlexibleWidth or UIViewAutoresizing.UIViewAutoresizingFlexibleHeight;
-		contentView.addSubview(fView);
+    fView := aClass.alloc.initWithFrame(contentView.bounds) as UIView; //64464: "aClass.alloc.initWithFrame" is treated as NSObject, not id
+    fView.autoresizingMask :=  UIViewAutoresizing.UIViewAutoresizingFlexibleWidth or UIViewAutoresizing.UIViewAutoresizingFlexibleHeight;
+    contentView.addSubview(fView);
   end;
   result := self;
 end;
 
 method TPBaseCell.initWithStyle(style: UITableViewCellStyle) viewClass(aClass: &Class) size(aSize: CGSize): id;
 begin
-	//var aView := &aClass.alloc.initWithFrame(CGRectMake(0.0, 0.0, size.width, size.height));
+  //var aView := &aClass.alloc.initWithFrame(CGRectMake(0.0, 0.0, size.width, size.height));
   //self := initWithStyle(style) view(aView);
  // result := self;
 end;
@@ -80,18 +80,18 @@ end;
 
 method TPBaseCell.setBackgroundGradientFromColor(fromColor: UIColor) toColor(toColor: UIColor);
 begin
-	var f := frame;
-	var i := TPBaseCellView.createGradientImageWidth(f.size.width) height(f.size.height) fromColor(fromColor) toColor(toColor);
-	var b := UIImageView.alloc.initWithImage(i);
-	setBackgroundView(b);
+  var f := frame;
+  var i := TPBaseCellView.createGradientImageWidth(f.size.width) height(f.size.height) fromColor(fromColor) toColor(toColor);
+  var b := UIImageView.alloc.initWithImage(i);
+  setBackgroundView(b);
 end;
 
 method TPBaseCell.setSelectedBackgroundGradientFromColor(fromColor: UIColor) toColor(toColor: UIColor);
 begin
-	var f := frame;
-	var i := TPBaseCellView.createGradientImageWidth(f.size.width) height(f.size.height) fromColor(fromColor) toColor(toColor);
-	var b := UIImageView.alloc.initWithImage(i);
-	setSelectedBackgroundView(b);
+  var f := frame;
+  var i := TPBaseCellView.createGradientImageWidth(f.size.width) height(f.size.height) fromColor(fromColor) toColor(toColor);
+  var b := UIImageView.alloc.initWithImage(i);
+  setSelectedBackgroundView(b);
 end;
 
 method TPBaseCell.setBackgroundGradient;
